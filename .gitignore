@@ -5,3 +5,5 @@ log/
 *.swo
 *.pyc
 *.bak
+.catkin_workspace
+.vscode/
