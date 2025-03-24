@@ -1,0 +1,7 @@
+build/
+devel/
+log/
+*.swp
+*.swo
+*.pyc
+*.bak
