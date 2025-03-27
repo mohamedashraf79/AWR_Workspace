@@ -1,0 +1,39 @@
+<launch>
+
+    <!-- Run the EKF Localization node -->
+
+    
+  <arg name="local_ekf_config_file"   default="$(find robot_controller)/config/ekf_localization.yaml" />
+
+    <node pkg="robot_localization" type="ekf_localization_node" name="robot_ekf_filter" clear_params="true" output="screen">
+      <rosparam command="load" file="$(arg local_ekf_config_file)" />          
+      <remap from="odometry/filtered" to="odom"/>
+      <remap from="set_pose" to="/set_pose"/>
+      <remap from="cmd_vel" to="cmd_vel"/>
+    </node>
+
+
+
+   <!-- Complementary filter -->
+
+  <!-- <node pkg="imu_complementary_filter" type="complementary_filter_node"
+      name="complementary_filter_gain_node" output="screen">
+    <param name="do_bias_estimation" value="true"/>
+    <param name="do_adaptive_gain" value="true"/>
+    <param name="use_mag" value="false"/>
+    <param name="gain_acc" value="0.01"/>
+    <param name="gain_mag" value="0.01"/>
+    <remap from="imu/data_raw" to="imu_data"/>
+  </node> -->
+
+
+
+  <!-- <node pkg="imu_filter_madgwick" type="imu_filter_node" name="imu_filter_madgwick" output="screen" respawn="false" >
+    <param name="fixed_frame" value="odom" />
+    <param name="use_mag" value="false" />
+    <param name="use_magnetic_field_msg" value="false" />
+    <param name="publish_tf" value="false"/>
+    <remap from="imu/data_raw" to="imu_data"/>
+ </node> -->
+
+</launch>
