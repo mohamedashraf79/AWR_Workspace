@@ -231,3 +231,6 @@ target_link_libraries(controller ${catkin_LIBRARIES} ${Eigen_LIBRARIES})
 add_executable(controller_node src/controller_node.cpp)
 add_dependencies(controller_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(controller_node ${catkin_LIBRARIES} controller)
+
+add_executable(joint_states_node src/joint_states_node.cpp)
+target_link_libraries(joint_states_node ${catkin_LIBRARIES})
