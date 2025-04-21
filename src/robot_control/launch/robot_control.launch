@@ -1,6 +1,6 @@
 <launch>
     <!-- Launch the joint_state_node -->
-    <node name="joint_state_node" pkg="robot_control" type="joint_state_node" output="screen" />
+    <node name="joint_states_node" pkg="robot_control" type="joint_states_node" output="screen" />
   
     <!-- Launch the controller_node -->
     <node name="controller_node" pkg="robot_control" type="controller_node" output="screen" />
