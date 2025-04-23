@@ -10,9 +10,6 @@
 SoftwareSerial HoverSerialRight(3, 4);  // Right driver
 SoftwareSerial HoverSerialLeft(9, 10);  // Left driver
 
-// SoftwareSerial for Mega communication (RX=A0, TX=A1)
-SoftwareSerial megaSerial(A0, A1);
-
 // Structs for command and feedback
 typedef struct {
   uint16_t start;
@@ -42,25 +39,22 @@ byte* p;
 uint8_t idx = 0;
 uint16_t bufStartFrame;
 
-int16_t speedLeftCmd = 0;    // Will be set by Mega
-int16_t speedRightCmd = 0;   // Will be set by Mega
+int16_t speedLeftCmd = 0;
+int16_t speedRightCmd = 0;
 int16_t speedLeftFeedback = 0;
 int16_t speedRightFeedback = 0;
 
 unsigned long iTimeSend = 0;
 
-// ------------------ Setup ------------------
 void setup() {
-  Serial.begin(SERIAL_BAUD);
+  Serial.begin(SERIAL_BAUD);  // Use hardware serial for Mega
   HoverSerialRight.begin(HOVER_SERIAL_BAUD);
   HoverSerialLeft.begin(HOVER_SERIAL_BAUD);
-  megaSerial.begin(57600);    // Communication with Mega
 
   pinMode(LED_BUILTIN, OUTPUT);
-  Serial.println("UNO Dual Hoverboard Driver - Mega Control Mode");
+  Serial.println("UNO Dual Hoverboard Driver - Mega Control Mode (Hardware Serial)");
 }
 
-// ------------------ Send Command ------------------
 void SendCommand(SoftwareSerial &port, int16_t speed) {
   Command.start = START_FRAME;
   Command.steer = 2 * speed;
@@ -69,7 +63,6 @@ void SendCommand(SoftwareSerial &port, int16_t speed) {
   port.write((uint8_t*)&Command, sizeof(Command));
 }
 
-// ------------------ Receive Feedback ------------------
 bool ReceiveFeedback(SoftwareSerial &port, int16_t &avgSpeed) {
   static SerialFeedback NewFeedback;
   while (port.available()) {
@@ -104,72 +97,69 @@ bool ReceiveFeedback(SoftwareSerial &port, int16_t &avgSpeed) {
   return false;
 }
 
-// ------------------ Read Mega Commands ------------------
 void ReadMegaCommands() {
-  if (megaSerial.available() >= 6) {  // Expecting "LxxxRxxx" (6 bytes)
-    if (megaSerial.read() == 'L') {
-      speedLeftCmd = megaSerial.parseInt();  // Read left speed
-      if (megaSerial.read() == 'R') {
-        speedRightCmd = megaSerial.parseInt();  // Read right speed
+  static String input = "";
+
+  while (Serial.available()) {
+    char c = (char)Serial.read();
+
+    if (c == '\n') {
+      if (input.startsWith("L")) {
+        int lPos = input.indexOf('L');
+        int rPos = input.indexOf('R');
+        if (lPos >= 0 && rPos > lPos) {
+          speedLeftCmd = input.substring(lPos + 1, rPos).toInt();
+          speedRightCmd = input.substring(rPos + 1).toInt();
+
+          Serial.print("Updated Speeds: L=");
+          Serial.print(speedLeftCmd);
+          Serial.print(" R=");
+          Serial.println(speedRightCmd);
+        }
       }
+      input = "";
+    } else {
+      input += c;
     }
-    // Optional: Debug received speeds
-    Serial.print("Mega Cmd: L=");
-    Serial.print(speedLeftCmd);
-    Serial.print(" R=");
-    Serial.println(speedRightCmd);
   }
 }
+
 void SendFeedbackToMega() {
-  megaSerial.print("FB");  // Feedback header
-  megaSerial.print("L");
-  megaSerial.print(speedLeftFeedback);
-  megaSerial.print("R");
-  megaSerial.print(speedRightFeedback);
-  megaSerial.println();  // End of message
+  Serial.print("FB");
+  Serial.print("L");
+  Serial.print(speedLeftFeedback);
+  Serial.print("R");
+  Serial.println(speedRightFeedback);
 }
 
-// ------------------ Main Loop ------------------
 void loop() {
   unsigned long now = millis();
 
-  ReadMegaCommands();  // Receive speeds from Mega
+  ReadMegaCommands();
 
   if (now >= iTimeSend) {
     iTimeSend = now + TIME_SEND;
 
-    // Send motor commands
+    // Send speed commands
     SendCommand(HoverSerialRight, -speedRightCmd);
     SendCommand(HoverSerialLeft, speedLeftCmd);
 
-    // Alternate reading feedback
-    static bool readNow = false;
-    static unsigned long lastReadTime = 0;
-    if (now - lastReadTime >= 200) {
-      lastReadTime = now;
-      readNow = !readNow;
+    // Always try to read both feedbacks every cycle
+    HoverSerialLeft.listen();
+    delay(5);
+    ReceiveFeedback(HoverSerialLeft, speedLeftFeedback);
 
-      if (readNow) {
-        HoverSerialLeft.listen();
-        delay(10);
-        ReceiveFeedback(HoverSerialLeft, speedLeftFeedback);
-      } else {
-        HoverSerialRight.listen();
-        delay(10);
-        int16_t rawFeedback;
-        if (ReceiveFeedback(HoverSerialRight, rawFeedback)) {
-          speedRightFeedback = -rawFeedback;
-        }
-      }
-      SendFeedbackToMega();  // Send feedback after update
+    HoverSerialRight.listen();
+    delay(5);
+    int16_t rawFeedback;
+    if (ReceiveFeedback(HoverSerialRight, rawFeedback)) {
+      speedRightFeedback = -rawFeedback;
     }
 
-    // Debug output (optional)
-    Serial.print("L_cmd: "); Serial.print(speedLeftCmd);
-    Serial.print(" | L_fb: "); Serial.print(speedLeftFeedback);
-    Serial.print(" || R_cmd: "); Serial.print(speedRightCmd);
-    Serial.print(" | R_fb: "); Serial.println(speedRightFeedback);
-  }
+    // Send both feedbacks to Mega
+    SendFeedbackToMega();
 
-  digitalWrite(LED_BUILTIN, (now % 1000) < 500);
+    // Blink LED
+    digitalWrite(LED_BUILTIN, (now % 1000) < 500);
+  }
 }
