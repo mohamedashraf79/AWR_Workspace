@@ -2,7 +2,7 @@
 
 // Serial Definitions
 #define HOVER_SERIAL_BAUD 57600
-#define SERIAL_BAUD       115200
+#define SERIAL_BAUD       57600
 #define START_FRAME       0xABCD
 #define TIME_SEND         100
 
