@@ -8,7 +8,7 @@ geometry_msgs::Vector3 encoder_msg;
 ros::Publisher encoder_pub("/encoder", &encoder_msg);
 
 void setup() {
-  Serial.begin(115200);      // Debugging
+  Serial.begin(57600);      // Debugging
   Serial1.begin(57600);      // TX1=18, RX1=19 (to Uno A0/A1)
 
   // Initialize ROS node
