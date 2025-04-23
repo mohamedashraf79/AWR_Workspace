@@ -18,7 +18,7 @@ void setup() {
 
 void loop() {
   static int speedLeftCmd = 100;    // desired left speed
-  static int speedRightCmd = 10;   // desired right speed
+  static int speedRightCmd = -100;   // desired right speed
 
   // Send speeds to Uno (format: "LxxxRxxx")
   Serial1.print("L");
