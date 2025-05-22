@@ -30,8 +30,8 @@ controller::controller(const ros::NodeHandle &n_h, double radius, double seperat
     odom_msg.pose.pose.orientation.z=0.0;
     odom_msg.pose.pose.orientation.w=1.0;
 
-    transform_stamped.header.frame_id="odom";
-    transform_stamped.child_frame_id="base_footprint";
+    // transform_stamped.header.frame_id="odom";
+    // transform_stamped.child_frame_id="base_footprint";
 
     speed_conversion << radius / 2, radius / 2, radius / seperation, -radius / seperation;
 }
@@ -87,16 +87,16 @@ void controller::joint_callback(const sensor_msgs::JointState &state)
     odom_pub.publish(odom_msg);
 
 
-    transform_stamped.transform.translation.x=x;
-    transform_stamped.transform.translation.x=y;
-    transform_stamped.transform.rotation.x=q.getX();
-    transform_stamped.transform.rotation.y=q.getY();
-    transform_stamped.transform.rotation.z=q.getZ();
-    transform_stamped.transform.rotation.w=q.getW();
-    transform_stamped.header.stamp=ros::Time::now();
+    // transform_stamped.transform.translation.x=x;
+    // transform_stamped.transform.translation.x=y;
+    // transform_stamped.transform.rotation.x=q.getX();
+    // transform_stamped.transform.rotation.y=q.getY();
+    // transform_stamped.transform.rotation.z=q.getZ();
+    // transform_stamped.transform.rotation.w=q.getW();
+    // transform_stamped.header.stamp=ros::Time::now();
 
-    static tf2_ros::TransformBroadcaster br;
-    br.sendTransform(transform_stamped);
+    // static tf2_ros::TransformBroadcaster br;
+    // br.sendTransform(transform_stamped);
 
     // ROS_INFO_STREAM("linear: " << linear << " angular: " << angular);
     // ROS_INFO_STREAM("x: "<<x);
