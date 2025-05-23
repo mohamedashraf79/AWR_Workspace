@@ -4,5 +4,12 @@
   
     <!-- Launch the controller_node -->
     <node name="controller_node" pkg="robot_control" type="controller_node" output="screen" />
+
+  <!-- Start rosserial node on /dev/mega -->
+  <node name="rosserial_arduino" pkg="rosserial_python" type="serial_node.py" output="screen">
+    <param name="port" value="/dev/mega" />
+    <param name="baud" value="57600" />  <!-- adjust baudrate as needed -->
+  </node>
+  
   </launch>
   
