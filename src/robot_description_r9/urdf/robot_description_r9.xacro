@@ -18,17 +18,17 @@
   name="base_link">
   <inertial>
     <origin
-      xyz="-0.0409735201954065 0.00157229402165202 0.119483535274084"
+      xyz="0.0423004561420601 -0.00159347451455082 0.117432623786484"
       rpy="0 0 0" />
     <mass
-      value="18.7595571477401" />
+      value="18.6525196152106" />
     <inertia
-      ixx="0.170418512070609"
-      ixy="-3.05696326503954E-05"
-      ixz="3.242888282834E-05"
-      iyy="0.151470059770373"
-      iyz="-8.62075122637916E-05"
-      izz="0.257547775912216" />
+      ixx="0.171005282140842"
+      ixy="-2.96297236699276E-05"
+      ixz="6.91823805775553E-05"
+      iyy="0.152030402706163"
+      iyz="8.60145591635783E-05"
+      izz="0.25745541923206" />
   </inertial>
   <visual>
     <origin
@@ -41,7 +41,7 @@
     <material
       name="">
       <color
-        rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+        rgba="0.686274509803922 0.607843137254902 0.529411764705882 1" />
     </material>
   </visual>
   <collision>
@@ -55,17 +55,70 @@
   </collision>
 </link>
 <link
-  name="Front_Left_Wheel_Link">
+  name="Back_Right_Wheel_Link">
   <inertial>
     <origin
-      xyz="-5.0514E-06 -0.033015 7.3553E-06"
+      xyz="5.0516E-06 0.033015 7.3553E-06"
       rpy="0 0 0" />
     <mass
       value="0.79712" />
     <inertia
       ixx="0.0016717"
       ixy="2.9311E-08"
-      ixz="-4.5313E-10"
+      ixz="4.5368E-10"
+      iyy="0.0030919"
+      iyz="-1.9238E-07"
+      izz="0.0016716" />
+  </inertial>
+  <visual>
+    <origin
+      xyz="0 0 0"
+      rpy="0 0 0" />
+    <geometry>
+      <mesh
+        filename="package://robot_description_r9/meshes/Link_BR.STL" />
+    </geometry>
+    <material
+      name="">
+      <color
+        rgba="0.79216 0.81961 0.93333 1" />
+    </material>
+  </visual>
+  <collision>
+    <origin
+      xyz="0 0 0"
+      rpy="0 0 0" />
+    <geometry>
+      <mesh
+        filename="package://robot_description_r9/meshes/Link_BR.STL" />
+    </geometry>
+  </collision>
+</link>
+<joint
+  name="Back_Right_Wheel_Joint"
+  type="continuous">
+  <origin
+    xyz="-0.165 -0.3307 0.0045"
+    rpy="0 0 0" />
+  <parent
+    link="base_link" />
+  <child
+    link="Back_Right_Wheel_Link" />
+  <axis
+    xyz="0 1 0" />
+</joint>
+<link
+  name="Back_Left_Wheel_Link">
+  <inertial>
+    <origin
+      xyz="-5.0517E-06 -0.033015 7.3553E-06"
+      rpy="0 0 0" />
+    <mass
+      value="0.79712" />
+    <inertia
+      ixx="0.0016717"
+      ixy="2.9311E-08"
+      ixz="-4.539E-10"
       iyy="0.0030919"
       iyz="1.9238E-07"
       izz="0.0016716" />
@@ -76,12 +129,12 @@
       rpy="0 0 0" />
     <geometry>
       <mesh
-        filename="package://robot_description_r9/meshes/Link_FL.STL" />
+        filename="package://robot_description_r9/meshes/Link_BL.STL" />
     </geometry>
     <material
       name="">
       <color
-        rgba="0.75294 0.75294 0.75294 1" />
+        rgba="0.79216 0.81961 0.93333 1" />
     </material>
   </visual>
   <collision>
@@ -90,20 +143,20 @@
       rpy="0 0 0" />
     <geometry>
       <mesh
-        filename="package://robot_description_r9/meshes/Link_FL.STL" />
+        filename="package://robot_description_r9/meshes/Link_BL.STL" />
     </geometry>
   </collision>
 </link>
 <joint
-  name="Front_Left_Wheel_Joint"
+  name="Back_Left_Wheel_Joint"
   type="continuous">
   <origin
-    xyz="0.165 0.3307 0.0045"
+    xyz="-0.165 0.3307 0.0045"
     rpy="0 0 0" />
   <parent
     link="base_link" />
   <child
-    link="Front_Left_Wheel_Link" />
+    link="Back_Left_Wheel_Link" />
   <axis
     xyz="0 1 0" />
 </joint>
@@ -111,14 +164,14 @@
   name="Front_Right_Wheel_Link">
   <inertial>
     <origin
-      xyz="5.0517E-06 0.033015 7.3553E-06"
+      xyz="5.0516E-06 0.033015 7.3553E-06"
       rpy="0 0 0" />
     <mass
       value="0.79712" />
     <inertia
       ixx="0.0016717"
       ixy="2.9311E-08"
-      ixz="4.5388E-10"
+      ixz="4.5377E-10"
       iyy="0.0030919"
       iyz="-1.9238E-07"
       izz="0.0016716" />
@@ -161,7 +214,7 @@
     xyz="0 1 0" />
 </joint>
 <link
-  name="Back_Left_Wheel_Link">
+  name="Front_Left_Wheel_Link">
   <inertial>
     <origin
       xyz="-5.0516E-06 -0.033015 7.3553E-06"
@@ -171,7 +224,7 @@
     <inertia
       ixx="0.0016717"
       ixy="2.9311E-08"
-      ixz="-4.5377E-10"
+      ixz="-4.5365E-10"
       iyy="0.0030919"
       iyz="1.9238E-07"
       izz="0.0016716" />
@@ -182,7 +235,7 @@
       rpy="0 0 0" />
     <geometry>
       <mesh
-        filename="package://robot_description_r9/meshes/Link_BL.STL" />
+        filename="package://robot_description_r9/meshes/Link_FL.STL" />
     </geometry>
     <material
       name="">
@@ -196,38 +249,38 @@
       rpy="0 0 0" />
     <geometry>
       <mesh
-        filename="package://robot_description_r9/meshes/Link_BL.STL" />
+        filename="package://robot_description_r9/meshes/Link_FL.STL" />
     </geometry>
   </collision>
 </link>
 <joint
-  name="Back_Left_Wheel_Joint"
+  name="Front_Left_Wheel_Joint"
   type="continuous">
   <origin
-    xyz="-0.165 0.3307 0.0045"
+    xyz="0.165 0.3307 0.0045"
     rpy="0 0 0" />
   <parent
     link="base_link" />
   <child
-    link="Back_Left_Wheel_Link" />
+    link="Front_Left_Wheel_Link" />
   <axis
     xyz="0 1 0" />
 </joint>
 <link
-  name="Back_Right_Wheel_Link">
+  name="LiDAR_Link">
   <inertial>
     <origin
-      xyz="5.0516E-06 0.033015 7.3553E-06"
+      xyz="0.0057758 0.00060438 -0.019562"
       rpy="0 0 0" />
     <mass
-      value="0.79712" />
+      value="0.14299" />
     <inertia
-      ixx="0.0016717"
-      ixy="2.9311E-08"
-      ixz="4.5365E-10"
-      iyy="0.0030919"
-      iyz="-1.9238E-07"
-      izz="0.0016716" />
+      ixx="4.6276E-05"
+      ixy="-8.3569E-07"
+      ixz="3.6217E-06"
+      iyy="7.3476E-05"
+      iyz="-2.0669E-07"
+      izz="0.00010796" />
   </inertial>
   <visual>
     <origin
@@ -235,7 +288,60 @@
       rpy="0 0 0" />
     <geometry>
       <mesh
-        filename="package://robot_description_r9/meshes/Link_BR.STL" />
+        filename="package://robot_description_r9/meshes/LiDAR_Link.STL" />
+    </geometry>
+    <material
+      name="">
+      <color
+        rgba="0.79216 0.81961 0.93333 1" />
+    </material>
+  </visual>
+  <collision>
+    <origin
+      xyz="0 0 0"
+      rpy="0 0 0" />
+    <geometry>
+      <mesh
+        filename="package://robot_description_r9/meshes/LiDAR_Link.STL" />
+    </geometry>
+  </collision>
+</link>
+<joint
+  name="LiDAR_Joint"
+  type="fixed">
+  <origin
+    xyz="-0.25369 -8.5025E-05 0.569"
+    rpy="0 0 0" />
+  <parent
+    link="base_link" />
+  <child
+    link="LiDAR_Link" />
+  <axis
+    xyz="0 0 0" />
+</joint>
+<link
+  name="IMU_Link">
+  <inertial>
+    <origin
+      xyz="-0.00081359 5.5683E-05 -0.00080828"
+      rpy="0 0 0" />
+    <mass
+      value="0.0010017" />
+    <inertia
+      ixx="3.0394E-08"
+      ixy="1.306E-11"
+      ixz="-6.2461E-14"
+      iyy="1.6953E-08"
+      iyz="3.3681E-18"
+      izz="4.6329E-08" />
+  </inertial>
+  <visual>
+    <origin
+      xyz="0 0 0"
+      rpy="0 0 0" />
+    <geometry>
+      <mesh
+        filename="package://robot_description_r9/meshes/IMU_Link.STL" />
     </geometry>
     <material
       name="">
@@ -249,75 +355,21 @@
       rpy="0 0 0" />
     <geometry>
       <mesh
-        filename="package://robot_description_r9/meshes/Link_BR.STL" />
+        filename="package://robot_description_r9/meshes/IMU_Link.STL" />
     </geometry>
   </collision>
 </link>
 <joint
-  name="Back_Right_Wheel_Joint"
-  type="continuous">
+  name="IMU_Joint"
+  type="fixed">
   <origin
-    xyz="-0.165 -0.3307 0.0045"
-    rpy="0 0 0" />
+    xyz="0.037242 0 0.032143"
+    rpy="0 0 -3.1416" />
   <parent
     link="base_link" />
   <child
-    link="Back_Right_Wheel_Link" />
+    link="IMU_Link" />
   <axis
-    xyz="0 1 0" />
-</joint>
-
-<link
-name="LiDAR_Link">
-<inertial>
-  <origin
-    xyz="0.0057735 0.00062673 -0.019562"
-    rpy="0 0 0" />
-  <mass
-    value="0.14299" />
-  <inertia
-    ixx="4.6282E-05"
-    ixy="-9.4095E-07"
-    ixz="3.6225E-06"
-    iyy="7.3469E-05"
-    iyz="-1.9267E-07"
-    izz="0.00010796" />
-</inertial>
-<visual>
-  <origin
-    xyz="0 0 0"
-    rpy="0 0 0" />
-  <geometry>
-    <mesh
-      filename="package://robot_description_r9/meshes/LiDAR_Link.STL" />
-  </geometry>
-  <material
-    name="">
-    <color
-      rgba="0.79216 0.81961 0.93333 1" />
-  </material>
-</visual>
-<collision>
-  <origin
-    xyz="0 0 0"
-    rpy="0 0 0" />
-  <geometry>
-    <mesh
-      filename="package://robot_description_r9/meshes/LiDAR_Link.STL" />
-  </geometry>
-</collision>
-</link>
-<joint
-name="LiDAR_Joint"
-type="fixed">
-<origin
-  xyz="0.21631 -0.00025017 0.519"
-  rpy="0 0 0" />
-<parent
-  link="base_link" />
-<child
-  link="LiDAR_Link" />
-<axis
-  xyz="0 0 1" />
+    xyz="0 0 0" />
 </joint>
 </robot>
