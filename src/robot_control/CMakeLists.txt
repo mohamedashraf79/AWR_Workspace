@@ -16,6 +16,7 @@ find_package(catkin REQUIRED COMPONENTS
   nav_msgs
   tf2
   tf2_ros
+  serial
 )
 
 find_package(Eigen3 REQUIRED COMPONENTS)
@@ -234,3 +235,11 @@ target_link_libraries(controller_node ${catkin_LIBRARIES} controller)
 
 add_executable(joint_states_node src/joint_states_node.cpp)
 target_link_libraries(joint_states_node ${catkin_LIBRARIES})
+
+## Declare a C++ executable
+add_executable(mpu6050_serial_to_imu_node src/mpu6050_serial_to_imu_node.cpp)
+
+## Specify libraries to link a library or executable target against
+target_link_libraries(mpu6050_serial_to_imu_node
+  ${catkin_LIBRARIES}
+)

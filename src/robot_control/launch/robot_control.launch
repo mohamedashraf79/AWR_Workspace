@@ -10,6 +10,10 @@
     <param name="port" value="/dev/mega" />
     <param name="baud" value="57600" />  <!-- adjust baudrate as needed -->
   </node>
+    <!-- Launch the controller_node -->
+    <node name="mpu6050_serial_to_imu_node" pkg="robot_control" type="mpu6050_serial_to_imu_node" output="screen" />
+
+    <include file="$(find robot_controller)/launch/ekf.launch"/>
   
   </launch>
   
