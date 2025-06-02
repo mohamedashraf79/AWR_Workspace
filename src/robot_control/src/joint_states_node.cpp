@@ -51,11 +51,21 @@ int main(int argc, char** argv) {
     left_wheel_position += left_velocity_rad * dt;
     right_wheel_position += right_velocity_rad * dt;
 
-    // Fill joint state message
+    // Fill joint state message with both left and right wheel pairs
     sensor_msgs::JointState joint_msg;
     joint_msg.header.stamp = current_time;
-    joint_msg.name = {"left_wheel_joint", "right_wheel_joint"};
-    joint_msg.position = {left_wheel_position, right_wheel_position};
+    joint_msg.name = {
+      "Back_Left_Wheel_Joint",
+      "Front_Left_Wheel_Joint",
+      "Back_Right_Wheel_Joint",
+      "Front_Right_Wheel_Joint"
+    };
+    joint_msg.position = {
+      left_wheel_position,
+      left_wheel_position,
+      right_wheel_position,
+      right_wheel_position
+    };
 
     // Publish joint states
     joint_pub.publish(joint_msg);
